@@ -1,0 +1,13 @@
+<mat-form-field appearance="outline">
+  <mat-label>Cliente</mat-label>
+  <input type="text" placeholder="Buscar cliente" matInput [formControl]="control" [matAutocomplete]="auto"
+    [required]="isRequired">
+  <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayCustomerName"
+    (optionSelected)="onCustomerSelected($event.option.value)">
+    @for (customer of filteredCustomers$ | async; track customer) {
+    <mat-option [value]="customer">
+      {{ customer.name }} {{ customer.lastName }} - {{ customer.documentNumber }}
+    </mat-option>
+    }
+  </mat-autocomplete>
+</mat-form-field>

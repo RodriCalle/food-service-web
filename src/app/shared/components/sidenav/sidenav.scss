@@ -1,0 +1,12 @@
+mat-nav-list {
+  padding: 0 8px;
+}
+
+a.active {
+  background-color: var(--mat-sys-on-primary);
+}
+
+mat-icon {
+  margin-right: 8px;
+  color: var(--mat-sys-primary);
+}

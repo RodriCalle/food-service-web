@@ -1,0 +1,42 @@
+<app-loading [visible]="isLoading"></app-loading>
+
+<h3>Lista de Pedidos</h3>
+
+<h4>Filtros</h4>
+
+<form [formGroup]="filterForm" class="form-container">
+  <div class="form-fields">
+    <app-customer-form-field [control]="this.filterForm.controls.customer"
+      (customerSelected)="onCustomerSelected($event)"></app-customer-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Estado</mat-label>
+      <mat-select formControlName="status">
+        @for (status of orderStatus; track status) {
+        <mat-option [value]="status">
+          {{ status }}
+        </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <app-restaurant-form-field [control]="this.filterForm.controls.restaurantId"
+      [allAvailable]="true"></app-restaurant-form-field>
+  </div>
+
+
+  <div class="form-actions">
+    <button mat-stroked-button color="primary" type="button" (click)="loadOrders()"
+      [disabled]="this.filterForm.invalid">Buscar</button>
+    <button mat-stroked-button type="button" (click)="resetFilters()">Limpiar</button>
+  </div>
+</form>
+
+<h4>Pedidos</h4>
+
+<div class="orders-grid" *ngIf="orders$ | async as orders">
+  @for (order of orders; track order) {
+  <app-order-card [order]="order">
+  </app-order-card>
+  }
+</div>

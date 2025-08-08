@@ -1,0 +1,93 @@
+<app-loading [visible]="isLoading"></app-loading>
+
+<h3>Lista de Clientes</h3>
+
+<h4>{{ formMode == 'create' ? 'Crear' : 'Editar' }} Cliente</h4>
+
+<form [formGroup]="form" (ngSubmit)="saveCustomer()" class="form-container">
+  <div class="form-fields">
+    <mat-form-field appearance="outline">
+      <mat-label>Nombre</mat-label>
+      <input matInput placeholder="Rodrigo" formControlName="name" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Apellido</mat-label>
+      <input matInput placeholder="Calle" formControlName="lastName" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Documento</mat-label>
+      <input matInput placeholder="75830345" formControlName="documentNumber" required>
+    </mat-form-field>
+
+  </div>
+  <div class="form-actions">
+    <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">Guardar</button>
+    <button mat-raised-button color="accent" [disabled]="formMode != 'edit'"
+      (click)="cancelEditMode()">Cancelar</button>
+  </div>
+
+</form>
+
+<div class="table-container">
+
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 mat-table-responsive">
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>Id</th>
+      <td mat-cell *matCellDef="let category">{{ category.id }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Nombre</th>
+      <td mat-cell *matCellDef="let category">{{ category.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="lastName">
+      <th mat-header-cell *matHeaderCellDef>Apellido</th>
+      <td mat-cell *matCellDef="let category">{{ category.lastName }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="documentNumber">
+      <th mat-header-cell *matHeaderCellDef>Documento</th>
+      <td mat-cell *matCellDef="let category">{{ category.documentNumber }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="createdAt">
+      <th mat-header-cell *matHeaderCellDef>Creado</th>
+      <td mat-cell *matCellDef="let category">{{ category.createdAt ? (category.createdAt | date: 'short') : '-' }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="updatedAt">
+      <th mat-header-cell *matHeaderCellDef>Actualizado</th>
+      <td mat-cell *matCellDef="let category">{{ category.updatedAt ? (category.updatedAt | date: 'short') : '-' }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="deletedAt">
+      <th mat-header-cell *matHeaderCellDef>Eliminado</th>
+      <td mat-cell *matCellDef="let category">{{ category.deletedAt ? (category.deletedAt | date: 'short') : '-' }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Estado</th>
+      <td mat-cell *matCellDef="let category">
+        <mat-chip [disabled]="!category.status">{{ category.status ? 'Activo' :
+          'Desactivado' }}</mat-chip>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let category">
+        <button mat-button color="primary" (click)="editCustomer(category)">Editar</button>
+        <button mat-button color="warn" (click)="deleteCustomer(category.id)">Eliminar</button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+  </table>
+  <mat-paginator></mat-paginator>
+</div>

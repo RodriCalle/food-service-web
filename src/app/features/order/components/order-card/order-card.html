@@ -1,0 +1,24 @@
+<mat-card class="order-card">
+  <mat-card-header>
+    <mat-card-title>#{{ order.id }}</mat-card-title>
+    <mat-card-subtitle>{{ order.status }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <p><strong>Cliente:</strong> {{ order.customer?.name }} {{ order.customer?.lastName }}</p>
+    <p><strong>Restaurante:</strong> {{ order.restaurant?.name }}</p>
+    <p><strong>Items:</strong></p>
+    <ul>
+      @for (orderItem of order.orderItems; track orderItem) {
+      <li>
+        {{ orderItem.product?.name }} - {{ orderItem.quantity }} x
+        {{ orderItem.product?.price | currency:'S/.':'symbol' }}
+      </li>
+      }
+    </ul>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-button color="primary">Ver Detalles</button>
+  </mat-card-actions>
+</mat-card>

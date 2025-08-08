@@ -1,0 +1,13 @@
+<mat-form-field appearance="outline">
+  <mat-label>Restaurante</mat-label>
+  <mat-select [formControl]="control" [required]="isRequired">
+    @if (allAvailable) {
+    <mat-option [value]="null">Todos</mat-option>
+    }
+    @for (restaurant of restaurants$ | async; track restaurant) {
+    <mat-option [value]="restaurant.id">
+      {{ restaurant.name }}
+    </mat-option>
+    }
+  </mat-select>
+</mat-form-field>

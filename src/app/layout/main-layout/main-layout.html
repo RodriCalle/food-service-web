@@ -1,0 +1,15 @@
+<app-toolbar (menuToggle)="sidenav.toggle()"></app-toolbar>
+
+<mat-sidenav-container class="main-container">
+  <mat-sidenav #sidenav mode="push" class="sidenav">
+    <app-sidenav></app-sidenav>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <main class="main-content">
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<app-footer></app-footer>

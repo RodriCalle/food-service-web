@@ -1,0 +1,149 @@
+<app-loading [visible]="isLoading"></app-loading>
+
+<h3>Lista de Usuarios</h3>
+
+<h4>Crear Usuario</h4>
+
+<form [formGroup]="form" (ngSubmit)="saveApplicationUser()" class="form-container">
+  <div class="form-fields">
+
+    <mat-form-field appearance="outline">
+      <mat-label>Username</mat-label>
+      <input matInput placeholder="rodrigo" formControlName="userName" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput placeholder="rodrigo@gmail.com" formControlName="email" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Nombre</mat-label>
+      <input matInput placeholder="Rodrigo" formControlName="name" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Apellido</mat-label>
+      <input matInput placeholder="Perez" formControlName="lastName" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Documento</mat-label>
+      <input matInput placeholder="12345678" formControlName="documentNumber" required>
+    </mat-form-field>
+
+    <app-restaurant-form-field [control]="form.controls.restaurantId" [isRequired]="true"></app-restaurant-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" placeholder="**********" formControlName="password" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Rol</mat-label>
+      <mat-select formControlName="role" required>
+        @for (rol of roles; track rol) {
+        <mat-option [value]="rol">
+          {{ rol }}
+        </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+  </div>
+  <div class="form-actions">
+    <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">Guardar</button>
+  </div>
+
+</form>
+
+
+<h4>Filtros</h4>
+
+<form [formGroup]="filterForm" class="filter-form">
+  <div class="form-fields">
+    <app-restaurant-form-field [control]="filterForm.controls.restaurantId"
+      [allAvailable]="true"></app-restaurant-form-field>
+  </div>
+  <div class="form-actions">
+    <button mat-stroked-button color="primary" type="button" (click)="loadApplicationUsers()">Buscar</button>
+  </div>
+</form>
+
+<div class="table-container">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 mat-table-responsive">
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>Id</th>
+      <td mat-cell *matCellDef="let applicationUser">{{ applicationUser.id }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="userName">
+      <th mat-header-cell *matHeaderCellDef>Username</th>
+      <td mat-cell *matCellDef="let applicationUser">{{ applicationUser.userName }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="role">
+      <th mat-header-cell *matHeaderCellDef>Rol</th>
+      <td mat-cell *matCellDef="let applicationUser">{{ applicationUser.roles ? parseRoles(applicationUser.roles) : '-'
+        }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Nombre</th>
+      <td mat-cell *matCellDef="let applicationUser">{{ applicationUser.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="lastName">
+      <th mat-header-cell *matHeaderCellDef>Apellido</th>
+      <td mat-cell *matCellDef="let applicationUser">{{ applicationUser.lastName }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="documentNumber">
+      <th mat-header-cell *matHeaderCellDef>Documento</th>
+      <td mat-cell *matCellDef="let applicationUser">{{ applicationUser.documentNumber }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="restaurant">
+      <th mat-header-cell *matHeaderCellDef>Restaurant</th>
+      <td mat-cell *matCellDef="let applicationUser">{{ applicationUser.restaurant ? (applicationUser.restaurant.name) :
+        "-" }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef>Email</th>
+      <td mat-cell *matCellDef="let applicationUser">{{ applicationUser.email }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="createdAt">
+      <th mat-header-cell *matHeaderCellDef>Creado</th>
+      <td mat-cell *matCellDef="let applicationUser">{{ applicationUser.createdAt ? (applicationUser.createdAt | date:
+        'short') : '-' }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="updatedAt">
+      <th mat-header-cell *matHeaderCellDef>Actualizado</th>
+      <td mat-cell *matCellDef="let applicationUser">{{ applicationUser.updatedAt ? (applicationUser.updatedAt | date:
+        'short') : '-' }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="deletedAt">
+      <th mat-header-cell *matHeaderCellDef>Eliminado</th>
+      <td mat-cell *matCellDef="let applicationUser">{{ applicationUser.deletedAt ? (applicationUser.deletedAt | date:
+        'short') : '-' }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Estado</th>
+      <td mat-cell *matCellDef="let applicationUser">
+        <mat-chip [disabled]="!applicationUser.status">{{ applicationUser.status ? 'Activo' :
+          'Desactivado' }}</mat-chip>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+  </table>
+  <mat-paginator></mat-paginator>
+</div>

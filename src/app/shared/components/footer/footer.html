@@ -1,0 +1,38 @@
+<footer class="footer mat-elevation-z2">
+  <mat-divider></mat-divider>
+  <div class="footer-content">
+    <div class="footer-column">
+      <h3>Contact</h3>
+      <p><mat-icon>phone</mat-icon> +51 992 599 599</p>
+      <p><mat-icon>place</mat-icon> Lima, Perú</p>
+      <p><mat-icon>email</mat-icon> rodrigocallegaldos@gmail.com</p>
+    </div>
+
+    <div class="footer-column">
+      <h3>Social Media</h3>
+      <div class="social-icons">
+        <button mat-icon-button aria-label="Facebook"
+          (click)="openSocial('https://www.facebook.com/rodrigocallegaldos')">
+          <mat-icon>facebook</mat-icon>
+        </button>
+        <button mat-icon-button aria-label="Mail" (click)="openSocial('mailto:rodrigocallegaldos@gmail.com')">
+          <mat-icon>mail</mat-icon>
+        </button>
+        <button mat-icon-button aria-label=" Link">
+          <mat-icon>link</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <div class="footer-column">
+      <h3>About</h3>
+      <p>Sistema de pedidos para restaurantes. Administra productos, pedidos y usuarios desde una única plataforma.</p>
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <div class="footer-bottom">
+    <p>&copy; 2025 Food Service System. Made with love <3 by RodriDev</p>
+  </div>
+</footer>

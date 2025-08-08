@@ -1,0 +1,44 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+  padding: 1rem;
+}
+
+.glass-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+
+  /* Fondo más translúcido */
+  background: rgba(255, 255, 255, 0.1);
+
+  /* Vidrio más marcado */
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+
+  /* Borde brillante */
+  border: 1px solid rgba(255, 255, 255, 0.4);
+
+  /* Sombra suave para flotar sobre el fondo */
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
+
+  /* Texto blanco para contraste */
+  color: #fff;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.full-width {
+  width: 100%;
+}

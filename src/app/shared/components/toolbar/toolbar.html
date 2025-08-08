@@ -1,0 +1,31 @@
+<mat-toolbar color="primary" class="navbar">
+  <button mat-icon-button (click)="toggleMenu()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <a class="app-title" mat-list-item [routerLink]="['/dashboard']" routerLinkActive="active">
+    Food Service System
+  </a>
+
+  <span class="spacer"></span>
+
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>account_circle</mat-icon>
+  </button>
+
+  <mat-menu #menu="matMenu">
+    @if (username) {
+    <span mat-menu-item disabled>{{ username }}</span>
+    }
+    @if (restaurant$ | async; as restaurant) {
+    <span mat-menu-item disabled>{{ restaurant.name }}</span>
+    }
+    <button mat-menu-item (click)="goToProfile()">
+      <mat-icon>person</mat-icon>
+      <span>Perfil</span>
+    </button>
+    <button mat-menu-item (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Salir</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>

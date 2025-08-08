@@ -1,0 +1,19 @@
+<mat-nav-list>
+  <mat-accordion [multi]="false">
+    @for (item of menuItemsForRole; track item) {
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon>{{ item.icon }}</mat-icon>
+          {{ item.label }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      @for (child of item.children; track child) {
+      <a mat-list-item [routerLink]="child.path" routerLinkActive="active">
+        {{ child.label }}
+      </a>
+      }
+    </mat-expansion-panel>
+    }
+  </mat-accordion>
+</mat-nav-list>

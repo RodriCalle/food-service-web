@@ -1,0 +1,22 @@
+<app-loading [visible]="isLoading"></app-loading>
+
+<div class="login-container">
+  <mat-card class="glass-card">
+    <mat-card-title class="title">Food Service System</mat-card-title>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Correo</mat-label>
+        <input matInput formControlName="email" type="email" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Contraseña</mat-label>
+        <input matInput formControlName="password" type="password" />
+      </mat-form-field>
+
+      <button mat-flat-button color="primary" class="full-width" type="submit">
+        Entrar
+      </button>
+    </form>
+  </mat-card>
+</div>
