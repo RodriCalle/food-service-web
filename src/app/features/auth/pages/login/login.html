@@ -11,10 +11,15 @@
 
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Contraseña</mat-label>
-        <input matInput formControlName="password" type="password" />
+        <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'" />
+
+        <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword"
+          [attr.aria-label]="'Mostrar contraseña'" [attr.aria-pressed]="!hidePassword">
+          <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
       </mat-form-field>
 
-      <button mat-flat-button color="primary" class="full-width" type="submit">
+      <button mat-flat-button color="primary" class="full-width" type="submit" [disabled]="loginForm.invalid">
         Entrar
       </button>
     </form>

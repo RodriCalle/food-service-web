@@ -1,3 +1,4 @@
+import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../../../core/services/auth-service';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
@@ -28,6 +29,7 @@ import { Router } from '@angular/router';
     MatFormFieldModule,
     MatButtonModule,
     LoadingComponent,
+    MatIconModule,
   ],
   templateUrl: './login.html',
   styleUrl: './login.scss',
@@ -39,13 +41,11 @@ export class LoginComponent {
   private readonly router = inject(Router);
 
   loginForm: FormGroup = this.formBuilder.group({
-    email: [
-      'rodrigocallegaldos@gmail.com',
-      [Validators.required, Validators.email],
-    ],
-    password: ['Test75830345@!@!', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', Validators.required],
   });
   isLoading = this.loadingService.isLoading;
+  hidePassword: boolean = true;
 
   constructor() {}
 
