@@ -52,8 +52,8 @@
     <app-category-form-field [control]="this.filterForm.controls.categoryId"
       [allAvailable]="true"></app-category-form-field>
 
-    <button mat-stroked-button color="primary" type="button" (click)="loadProducts()">Buscar</button>
-    <button mat-stroked-button type="button" (click)="resetFilters()">Limpiar</button>
+    <button matButton="filled" type="button" (click)="loadProducts()">Buscar</button>
+    <button matButton type="button" (click)="resetFilters()">Limpiar</button>
 
   </div>
 </form>

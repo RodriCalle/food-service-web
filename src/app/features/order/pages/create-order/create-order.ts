@@ -206,29 +206,15 @@ export class CreateOrderComponent implements OnInit {
       orderItem.productId = orderItem.product.id;
     });
 
-    const payload = {
-      ...order,
-      orderItems: orderItems
-    }
+    order.orderItems = orderItems;
 
-    console.log(payload);
-
-    // this.loadingService.show();
-    // this.orderService
-    //   .create(order)
-    //   .pipe(withLoading(this.loadingService))
-    //   .subscribe((response: any) => {
-    //     orderItems.forEach((orderItem) => {
-    //       orderItem.orderId = response.id;
-    //       orderItem.productId = orderItem.product.id;
-    //       this.orderItemService
-    //         .create(orderItem)
-    //         .pipe(withLoading(this.loadingService))
-    //         .subscribe((response) => {
-    //           this.router.navigate(['/orders/list']);
-    //         });
-    //     });
-    //   });
+    this.loadingService.show();
+    this.orderService
+      .createFullOrder(order)
+      .pipe(withLoading(this.loadingService))
+      .subscribe((response: any) => {
+        this.router.navigate(['/orders/list']);
+      });
   }
 
   isSubmitDisabled(): boolean {

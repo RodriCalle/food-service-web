@@ -18,8 +18,8 @@
 
   </div>
   <div class="form-actions">
-    <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">Guardar</button>
-    <button mat-raised-button color="accent" [disabled]="formMode != 'edit'"
+    <button matButton="filled" type="submit" [disabled]="form.invalid">Guardar</button>
+    <button matButton [disabled]="formMode != 'edit'"
       (click)="cancelEditMode()">Cancelar</button>
   </div>
 

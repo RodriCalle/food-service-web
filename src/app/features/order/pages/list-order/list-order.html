@@ -11,7 +11,7 @@
 
     <mat-form-field appearance="outline">
       <mat-label>Estado</mat-label>
-      <mat-select formControlName="status">
+      <mat-select formControlName="status" multiple>
         @for (status of orderStatus; track status) {
         <mat-option [value]="status">
           {{ status }}
@@ -21,22 +21,35 @@
     </mat-form-field>
 
     <app-restaurant-form-field [control]="this.filterForm.controls.restaurantId"
-      [allAvailable]="true"></app-restaurant-form-field>
+      [allAvailable]="true" [isRequired]="true"></app-restaurant-form-field>
   </div>
 
 
   <div class="form-actions">
-    <button mat-stroked-button color="primary" type="button" (click)="loadOrders()"
+    <button matButton="filled" type="button" (click)="loadOrders()"
       [disabled]="this.filterForm.invalid">Buscar</button>
-    <button mat-stroked-button type="button" (click)="resetFilters()">Limpiar</button>
+    <button matButton type="button" (click)="resetFilters()">Limpiar</button>
   </div>
 </form>
 
 <h4>Pedidos</h4>
 
-<div class="orders-grid" *ngIf="orders$ | async as orders">
-  @for (order of orders; track order) {
-  <app-order-card [order]="order">
-  </app-order-card>
+@if (orders$ | async; as orders) {
+  @if (orders.length > 0) {
+    <div class="orders-grid">
+      @for (order of orders; track order) {
+        <app-order-card [order]="order" (statusChanged)="loadOrders()">
+        </app-order-card>
+      }
+    </div>
+  } @else {
+    <div class="no-orders">
+      No hay pedidos.
+    </div>
   }
-</div>
+} @else {
+  <div class="loading">
+    Cargando pedidos...
+  </div>
+}
+

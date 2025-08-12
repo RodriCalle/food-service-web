@@ -1,14 +1,13 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { CustomerService } from '@src/app/core/services/customer-service';
 import { OrderService } from '@src/app/core/services/order-service';
 import { LoadingComponent } from '@src/app/shared/components/loading/loading';
 import { LoadingService } from '@src/app/shared/services/loading-service';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { withLoading } from '@src/app/shared/operators/with-loading';
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { map, Observable, startWith } from 'rxjs';
+import { Observable } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { Customer } from '@src/app/core/models/customer';
 import { MatSelectModule } from '@angular/material/select';
@@ -46,12 +45,10 @@ export class ListOrderComponent implements OnInit {
   orderStatus: string[] = ['Created', 'InProgress', 'Delivered', 'Canceled'];
 
   filterForm = this.formBuilder.group({
-    customerId: [null],
-    customer: [null as Customer | null],
-    restaurantId: [
-      { value: null, disabled: !this.authService.hasRole(['Admin']) },
-    ],
-    status: ['Created'],
+    customerId: this.formBuilder.control({ value: null, disabled: false}),
+    customer: this.formBuilder.control({ value: null as unknown as Customer, disabled: false}),
+    restaurantId: this.formBuilder.control({ value: null, disabled: !this.authService.hasRole(['Admin'])}),
+    status: this.formBuilder.control({ value: ['Created', 'InProgress'], disabled: false}, { validators: [Validators.required]}),
   });
 
   isLoading = this.loadingService.isLoading;

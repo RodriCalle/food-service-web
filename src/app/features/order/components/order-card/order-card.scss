@@ -3,3 +3,26 @@
   display: flex;
   flex-direction: column;
 }
+
+.order-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+}
+
+.order-actions button {
+  width: 100%;
+}
+
+.chip-in-progress {
+  background-color: #ff9800 !important;
+}
+
+.chip-delivered {
+  background-color: #4caf50 !important; /* verde */
+}
+
+.chip-canceled {
+  background-color: red !important; /* verde */
+}

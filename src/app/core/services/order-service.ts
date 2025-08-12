@@ -1,6 +1,6 @@
 import { environment } from '@src/environments/environment';
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Order } from '@app/core/models/order';
 
@@ -14,13 +14,20 @@ export class OrderService {
   getAll(
     restaurantId?: string,
     customerId?: string,
-    status?: string
+    status?: any[]
   ): Observable<Order[]> {
-    const params: any = {};
+    let params: HttpParams = new HttpParams();
 
-    if (restaurantId) params.restaurantId = restaurantId;
-    if (customerId) params.customerId = customerId;
-    if (status) params.status = status;
+    if (restaurantId) params = params.set('restaurantId', restaurantId);
+    if (customerId) params = params.set('customerId', customerId);
+    if (status) {
+      if (status && status.length > 0) {
+        status.forEach(s => {
+          params = params.append('status', s);
+        });
+      }
+    }
+
     return this.http.get<Order[]>(this.apiUrl, { params });
   }
 
@@ -42,5 +49,14 @@ export class OrderService {
 
   delete(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  changeStatusToInProgress(id: string) {
+    return this.http.post<void>(`${this.apiUrl}/${id}/status/in-progress`, {});
+  }
+
+  changeStatusToDelivered(id: string) {
+    return this.http.post<void>(`${this.apiUrl}/${id}/status/delivered`, {});
+    
   }
 }

@@ -1,7 +1,13 @@
 <mat-card class="order-card">
   <mat-card-header>
     <mat-card-title>#{{ order.id }}</mat-card-title>
-    <mat-card-subtitle>{{ order.status }}</mat-card-subtitle>
+    <mat-card-subtitle>
+      <mat-chip-listbox>
+        <mat-chip [ngClass]="getChipClass(order.status)">
+          {{ getStatusLabel(order.status) }}
+        </mat-chip>
+      </mat-chip-listbox>
+    </mat-card-subtitle>
   </mat-card-header>
 
   <mat-card-content>
@@ -18,7 +24,13 @@
     </ul>
   </mat-card-content>
 
-  <mat-card-actions>
-    <button mat-button color="primary">Ver Detalles</button>
+  <mat-card-actions class="order-actions">
+    @if (order.status === 0) {
+      <button matButton="filled" (click)="changeStatusToInProgress()">En preparación</button>
+    }
+    @if (order.status === 1) {
+      <button matButton="filled" (click)="changeStatusToDelivered()">Entregado</button>
+    }
+    <button matButton="outlined" (click)="cancelOrder()">Cancelar</button>
   </mat-card-actions>
 </mat-card>

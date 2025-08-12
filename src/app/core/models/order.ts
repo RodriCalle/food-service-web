@@ -1,6 +1,6 @@
 export interface Order {
   id: string;
-  status: 'Created' | 'InProgress' | 'Delivered' | 'Canceled';
+  status: number;
   observation: string;
   createdAt?: Date;
   updatedAt?: Date;

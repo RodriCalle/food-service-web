@@ -88,7 +88,7 @@ export class ListProductComponent implements AfterViewInit, OnInit {
   });
   filterForm = this.formBuilder.group({
     restaurantId: this.formBuilder.control({ value: null, disabled: !this.authService.hasRole(['Admin']) }),
-    categoryId: this.formBuilder.control({ value: null, disabled: !this.authService.hasRole(['Admin']) }),
+    categoryId: this.formBuilder.control({ value: null, disabled: false }),
   });
 
   ngOnInit(): void {
@@ -107,11 +107,13 @@ export class ListProductComponent implements AfterViewInit, OnInit {
   }
 
   resetFilters() {
-    this.filterForm.patchValue({
-      restaurantId: null,
-      categoryId: null,
-    });
-
+    if(this.authService.hasRole(['Admin'])){
+      this.filterForm.patchValue({
+        restaurantId: null,
+      });
+    }
+    this.filterForm.patchValue({categoryId: null});
+    
     this.loadProducts();
   }
 
