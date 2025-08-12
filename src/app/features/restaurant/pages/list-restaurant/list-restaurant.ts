@@ -96,7 +96,7 @@ export class ListRestaurantComponent implements AfterViewInit, OnInit {
   createRestaurant() {
     if (this.form.invalid) return;
 
-    let restaurant = this.form.value as Restaurant;
+    let restaurant = this.form.getRawValue() as Restaurant;
 
     this.loadingService.show();
     this.restaurantService
@@ -117,7 +117,7 @@ export class ListRestaurantComponent implements AfterViewInit, OnInit {
     if (this.form.invalid) return;
     this.loadingService.show();
 
-    let restaurant = this.form.value as Restaurant;
+    let restaurant = this.form.getRawValue() as Restaurant;
 
     this.restaurantService
       .update(restaurant.id, restaurant)

@@ -9,40 +9,40 @@
 
     <mat-form-field appearance="outline">
       <mat-label>Username</mat-label>
-      <input matInput placeholder="rodrigo" formControlName="userName" required>
+      <input matInput placeholder="rodrigo" formControlName="userName">
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Email</mat-label>
-      <input matInput placeholder="rodrigo@gmail.com" formControlName="email" required>
+      <input matInput placeholder="rodrigo@gmail.com" formControlName="email">
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Nombre</mat-label>
-      <input matInput placeholder="Rodrigo" formControlName="name" required>
+      <input matInput placeholder="Rodrigo" formControlName="name">
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Apellido</mat-label>
-      <input matInput placeholder="Perez" formControlName="lastName" required>
+      <input matInput placeholder="Perez" formControlName="lastName">
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Documento</mat-label>
-      <input matInput placeholder="12345678" formControlName="documentNumber" required>
+      <input matInput placeholder="12345678" formControlName="documentNumber">
     </mat-form-field>
 
     <app-restaurant-form-field [control]="form.controls.restaurantId" [isRequired]="true"></app-restaurant-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Password</mat-label>
-      <input matInput type="password" placeholder="**********" formControlName="password" required>
+      <input matInput type="password" placeholder="**********" formControlName="password">
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Rol</mat-label>
-      <mat-select formControlName="role" required>
-        @for (rol of roles; track rol) {
+      <mat-select formControlName="role">
+        @for (rol of roles$ | async; track rol) {
         <mat-option [value]="rol">
           {{ rol }}
         </mat-option>

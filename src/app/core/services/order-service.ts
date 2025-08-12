@@ -32,6 +32,10 @@ export class OrderService {
     return this.http.post<Order>(this.apiUrl, order);
   }
 
+  createFullOrder(order: Order): Observable<Order> {
+    return this.http.post<Order>(`${this.apiUrl}/full-order`, order);
+  }
+
   update(id: string, order: Order): Observable<Order> {
     return this.http.put<Order>(`${this.apiUrl}/${id}`, order);
   }

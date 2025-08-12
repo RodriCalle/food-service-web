@@ -98,7 +98,7 @@ export class ListCustomerComponent implements AfterViewInit, OnInit {
   createCustomer() {
     if (this.form.invalid) return;
 
-    let category = this.form.value as Customer;
+    let category = this.form.getRawValue() as Customer;
 
     this.loadingService.show();
     this.customerService
@@ -119,7 +119,7 @@ export class ListCustomerComponent implements AfterViewInit, OnInit {
     if (this.form.invalid) return;
     this.loadingService.show();
 
-    let customer = this.form.value as Customer;
+    let customer = this.form.getRawValue() as Customer;
 
     this.customerService
       .update(customer.id, customer)

@@ -6,7 +6,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -22,6 +22,7 @@ import { LoadingComponent } from '@src/app/shared/components/loading/loading';
 import { withLoading } from '@src/app/shared/operators/with-loading';
 import { LoadingService } from '@src/app/shared/services/loading-service';
 import { RestaurantFormField } from '@src/app/shared/components/restaurant-form-field/restaurant-form-field';
+import { map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-list-application-user',
@@ -69,19 +70,17 @@ export class ListApplicationUserComponent implements AfterViewInit, OnInit {
     'status',
   ];
   public dataSource = new MatTableDataSource<ApplicationUser>([]);
-  roles: any[] = [];
+  roles$!: Observable<string[]>;
   isLoading = this.loadingService.isLoading;
-  form = this.formBuilder.group({
-    userName: [''],
-    name: [''],
-    lastName: [''],
-    documentNumber: [''],
-    restaurantId: [
-      { value: null, disabled: !this.authService.hasRole(['Admin']) },
-    ],
-    email: [''],
-    password: [''],
-    role: [''],
+  form = this.formBuilder.nonNullable.group({
+    userName: this.formBuilder.nonNullable.control({value: '', disabled: false}, {validators: [Validators.required]} ),
+    name: this.formBuilder.nonNullable.control({value: '', disabled: false}, {validators: [Validators.required]} ),
+    lastName: this.formBuilder.nonNullable.control({value: '', disabled: false}, {validators: [Validators.required]} ),
+    documentNumber: this.formBuilder.nonNullable.control({value: '', disabled: false}, {validators: [Validators.required]} ),
+    restaurantId: this.formBuilder.nonNullable.control({value: '', disabled: !this.authService.hasRole(['Admin'])}, {validators: [Validators.required]} ),
+    email: this.formBuilder.nonNullable.control({value: '', disabled: false}, {validators: [Validators.required]} ),
+    password: this.formBuilder.nonNullable.control({value: '', disabled: false}, {validators: [Validators.required]} ),
+    role: this.formBuilder.nonNullable.control({value: '', disabled: false}, {validators: [Validators.required]} ),
   });
   filterForm = this.formBuilder.group({
     restaurantId: [
@@ -108,35 +107,45 @@ export class ListApplicationUserComponent implements AfterViewInit, OnInit {
   }
 
   loadApplicationUsers() {
-    const { restaurantId } = this.filterForm.value;
+    const { restaurantId } = this.filterForm.getRawValue();
 
     this.loadingService.show();
     this.applicationUserService
       .getAll(restaurantId ?? undefined)
       .pipe(withLoading(this.loadingService))
-      .subscribe((categories: any[any]) => {
-        this.dataSource.data = categories;
+      .subscribe((applicationUsers: any[any]) => {
+        this.dataSource.data = applicationUsers;
       });
   }
 
   loadRoles() {
     this.loadingService.show();
-    this.roleService
+    
+    this.roles$ = this.roleService
       .getAll()
       .pipe(withLoading(this.loadingService))
-      .subscribe((roles: any[any]) => {
-        this.roles = roles;
-      });
+      .pipe(
+        map(roles =>
+          this.authService.getUserInfo().role === 'Admin'
+            ? roles
+            : roles.filter(r => r !== 'Admin')
+        )
+      );;
   }
 
   createApplicationUser() {
     if (this.form.invalid) return;
+    
+    const { role, ...rest } = this.form.getRawValue();
 
-    let applicationUser = this.form.value as ApplicationUser;
+    const payload: ApplicationUser = {
+      ...rest,
+      roles: [role]
+    }
 
     this.loadingService.show();
     this.authService
-      .create(applicationUser)
+      .create(payload)
       .pipe(withLoading(this.loadingService))
       .subscribe((newApplicationUser: any) => {
         this.form.reset();

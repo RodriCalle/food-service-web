@@ -100,7 +100,7 @@ export class ListCategoryComponent implements AfterViewInit, OnInit {
   createCategory() {
     if (this.form.invalid) return;
 
-    let category = this.form.value as Category;
+    let category = this.form.getRawValue() as Category;
 
     this.loadingService.show();
     this.categoryService
@@ -121,7 +121,7 @@ export class ListCategoryComponent implements AfterViewInit, OnInit {
     if (this.form.invalid) return;
     this.loadingService.show();
 
-    let category = this.form.value as Category;
+    let category = this.form.getRawValue() as Category;
 
     this.categoryService
       .update(category.id, category)

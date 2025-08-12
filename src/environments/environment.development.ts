@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://localhost:7045',
+  apiUrl: 'https://food-service-system-gfa8f0eudraeabhx.westus2-01.azurewebsites.net',
 };

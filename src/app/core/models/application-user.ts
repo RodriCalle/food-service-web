@@ -1,5 +1,5 @@
 export interface ApplicationUser {
-  id: string;
+  id?: string;
   userName: string;
   name: string;
   lastName: string;

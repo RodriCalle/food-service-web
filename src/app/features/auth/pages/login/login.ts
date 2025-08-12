@@ -51,9 +51,11 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
+
+      const { email, password  } = this.loginForm.getRawValue();
       this.loadingService.show();
       this.authService
-        .login(this.loginForm.value.email, this.loginForm.value.password)
+        .login(email, password)
         .pipe(withLoading(this.loadingService))
         .subscribe((response: any) => {
           this.router.navigate(['/dashboard']);

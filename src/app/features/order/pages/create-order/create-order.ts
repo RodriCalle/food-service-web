@@ -6,7 +6,6 @@ import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
-  Validators,
 } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
@@ -102,7 +101,7 @@ export class CreateOrderComponent implements OnInit {
   loadProducts() {
     this.loadingService.show();
 
-    const { restaurantId } = this.form.value;
+    const { restaurantId } = this.form.getRawValue();
 
     this.productService
       .getAll(restaurantId ?? undefined)
@@ -198,29 +197,38 @@ export class CreateOrderComponent implements OnInit {
   }
 
   submitOrder() {
-    let order = this.form.value as Order;
+    let order = this.form.getRawValue() as Order;
     let orderItems = this.formItems.controls['rows'].value as OrderItem[];
 
     order.customerId = order.customer.id;
-    // console.log(order);
-    // console.log(orderItems);
 
-    this.loadingService.show();
-    this.orderService
-      .create(order)
-      .pipe(withLoading(this.loadingService))
-      .subscribe((response: any) => {
-        orderItems.forEach((orderItem) => {
-          orderItem.orderId = response.id;
-          orderItem.productId = orderItem.product.id;
-          this.orderItemService
-            .create(orderItem)
-            .pipe(withLoading(this.loadingService))
-            .subscribe((response) => {
-              this.router.navigate(['/orders/list']);
-            });
-        });
-      });
+    orderItems.forEach((orderItem) => {
+      orderItem.productId = orderItem.product.id;
+    });
+
+    const payload = {
+      ...order,
+      orderItems: orderItems
+    }
+
+    console.log(payload);
+
+    // this.loadingService.show();
+    // this.orderService
+    //   .create(order)
+    //   .pipe(withLoading(this.loadingService))
+    //   .subscribe((response: any) => {
+    //     orderItems.forEach((orderItem) => {
+    //       orderItem.orderId = response.id;
+    //       orderItem.productId = orderItem.product.id;
+    //       this.orderItemService
+    //         .create(orderItem)
+    //         .pipe(withLoading(this.loadingService))
+    //         .subscribe((response) => {
+    //           this.router.navigate(['/orders/list']);
+    //         });
+    //     });
+    //   });
   }
 
   isSubmitDisabled(): boolean {

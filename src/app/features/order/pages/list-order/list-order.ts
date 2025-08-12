@@ -77,7 +77,7 @@ export class ListOrderComponent implements OnInit {
   }
 
   loadOrders() {
-    const { customer, restaurantId, status } = this.filterForm.value;
+    const { customer, restaurantId, status } = this.filterForm.getRawValue();
 
     this.loadingService.show();
 

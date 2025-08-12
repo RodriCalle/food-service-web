@@ -6,7 +6,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -24,6 +24,9 @@ import { LoadingService } from '@src/app/shared/services/loading-service';
 import { RestaurantFormField } from '@src/app/shared/components/restaurant-form-field/restaurant-form-field';
 import { CategoryFormField } from '@src/app/shared/components/category-form-field/category-form-field';
 import { AuthService } from '@src/app/core/services/auth-service';
+import { Observable } from 'rxjs';
+import { Restaurant } from '@src/app/core/models/restaurant';
+import { Category } from '@src/app/core/models/category';
 
 @Component({
   selector: 'app-list-product',
@@ -60,6 +63,7 @@ export class ListProductComponent implements AfterViewInit, OnInit {
     'id',
     'name',
     'description',
+    'stock',
     'price',
     'restaurant',
     'category',
@@ -70,24 +74,21 @@ export class ListProductComponent implements AfterViewInit, OnInit {
     'actions',
   ];
   public dataSource = new MatTableDataSource<Product>([]);
-  restaurants: any[] = [];
-  categories: any[] = [];
+  restaurants$!: Observable<Restaurant[]>;
+  categories$!: Observable<Category[]>;
   isLoading = this.loadingService.isLoading;
   form = this.formBuilder.group({
-    id: [''],
-    name: [''],
-    description: [''],
-    price: [0],
-    restaurantId: [
-      { value: null, disabled: !this.authService.hasRole(['Admin']) },
-    ],
-    categoryId: [null],
+    id: this.formBuilder.control({ value: '', disabled: false }),
+    name: this.formBuilder.nonNullable.control({ value: '', disabled: false }, { validators: [Validators.required]}),
+    description: this.formBuilder.nonNullable.control({ value: '', disabled: false }, { validators: [Validators.required]}),
+    stock: this.formBuilder.nonNullable.control({ value: 0, disabled: false }, { validators: [Validators.required]}),
+    price: this.formBuilder.nonNullable.control({ value: 0, disabled: false }, { validators: [Validators.required]}),
+    restaurantId: this.formBuilder.control({ value: '', disabled: !this.authService.hasRole(['Admin']) }, { validators: [Validators.required]}),
+    categoryId: this.formBuilder.control({ value: '', disabled: false }, { validators: [Validators.required]}),
   });
   filterForm = this.formBuilder.group({
-    restaurantId: [
-      { value: null, disabled: !this.authService.hasRole(['Admin']) },
-    ],
-    categoryId: [null],
+    restaurantId: this.formBuilder.control({ value: null, disabled: !this.authService.hasRole(['Admin']) }),
+    categoryId: this.formBuilder.control({ value: null, disabled: !this.authService.hasRole(['Admin']) }),
   });
 
   ngOnInit(): void {
@@ -123,7 +124,7 @@ export class ListProductComponent implements AfterViewInit, OnInit {
   }
 
   loadProducts() {
-    const { restaurantId, categoryId } = this.filterForm.value;
+    const { restaurantId, categoryId } = this.filterForm.getRawValue();
 
     this.loadingService.show();
     this.productService
@@ -136,22 +137,18 @@ export class ListProductComponent implements AfterViewInit, OnInit {
 
   loadCategories() {
     this.loadingService.show();
-    this.categoryService
+    
+    this.categories$ = this.categoryService
       .getAll()
-      .pipe(withLoading(this.loadingService))
-      .subscribe((categories: any[any]) => {
-        this.categories = categories;
-      });
+      .pipe(withLoading(this.loadingService));
   }
 
   loadRestaurants() {
     this.loadingService.show();
-    this.restaurantService
+    
+    this.restaurants$ = this.restaurantService
       .getAll()
-      .pipe(withLoading(this.loadingService))
-      .subscribe((restaurants: any[any]) => {
-        this.restaurants = restaurants;
-      });
+      .pipe(withLoading(this.loadingService));
   }
 
   cancelEditMode() {
@@ -162,7 +159,7 @@ export class ListProductComponent implements AfterViewInit, OnInit {
   createProduct() {
     if (this.form.invalid) return;
 
-    let product = this.form.value as Product;
+    let product = this.form.getRawValue() as Product;
 
     this.loadingService.show();
     this.productService
@@ -184,7 +181,7 @@ export class ListProductComponent implements AfterViewInit, OnInit {
     if (this.form.invalid) return;
     this.loadingService.show();
 
-    let product = this.form.value as Product;
+    let product = this.form.getRawValue() as Product;
 
     this.productService
       .update(product.id, product)
