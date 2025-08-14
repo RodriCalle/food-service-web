@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ProductService } from '@src/app/core/services/product-service';
 import { LoadingService } from '../../services/loading-service';
@@ -14,7 +14,6 @@ import { MatSelectModule } from '@angular/material/select';
   selector: 'app-product-form-field',
   imports: [ReactiveFormsModule,
     MatFormFieldModule,
-    CommonModule,
     MatInputModule,
     MatAutocompleteModule,
     MatSelectModule,
@@ -22,7 +21,7 @@ import { MatSelectModule } from '@angular/material/select';
   templateUrl: './product-form-field.html',
   styleUrl: './product-form-field.scss'
 })
-export class ProductFormField {
+export class ProductFormField implements OnInit {
   @Input({ required: true }) control!: FormControl;
   @Input() isRequired = false;
   @Input() restaurantId!: string | null;

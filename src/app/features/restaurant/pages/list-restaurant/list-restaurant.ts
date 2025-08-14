@@ -83,7 +83,7 @@ export class ListRestaurantComponent implements AfterViewInit, OnInit {
     this.restaurantService
       .getAll()
       .pipe(withLoading(this.loadingService))
-      .subscribe((restaurants: any[any]) => {
+      .subscribe((restaurants) => {
         this.dataSource.data = restaurants;
       });
   }

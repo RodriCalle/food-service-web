@@ -1,1 +1,65 @@
-<p>list-promotion works!</p>
+<app-loading [visible]="isLoading"></app-loading>
+
+<h3>Lista de Promociones</h3>
+
+<h4>Filtros</h4>
+
+<form [formGroup]="filterForm" class="form-container">
+  <div class="form-fields">
+    <app-restaurant-form-field [control]="this.filterForm.controls.restaurantId"
+      [allAvailable]="true" [isRequired]="true"></app-restaurant-form-field>
+  </div>
+
+  <div class="form-actions">
+    <button matButton="filled" type="button" (click)="loadPromotions()"
+      [disabled]="this.filterForm.invalid">Buscar</button>
+  </div>
+</form>
+
+<h4>Promociones</h4>
+
+<div class="table-container">
+
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 mat-table-responsive">
+  
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>Id</th>
+        <td mat-cell *matCellDef="let promotion">{{ promotion.id }}</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Nombre</th>
+        <td mat-cell *matCellDef="let promotion">{{ promotion.name }}</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef>Precio</th>
+        <td mat-cell *matCellDef="let promotion">{{ promotion.price | currency:'S/.':'symbol' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="restaurant">
+        <th mat-header-cell *matHeaderCellDef>Restaurant</th>
+        <td mat-cell *matCellDef="let promotion">{{ promotion.restaurant.name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="products">
+        <th mat-header-cell *matHeaderCellDef>Productos</th>
+        <td mat-cell *matCellDef="let promotion">
+            <!-- {{ promotion.promotionItems }} -->
+        </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let promotion">
+          <button mat-button color="warn" (click)="deletePromotion(promotion.id)">Eliminar</button>
+        </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  
+    </table>
+    <mat-paginator></mat-paginator>
+  </div>
+  

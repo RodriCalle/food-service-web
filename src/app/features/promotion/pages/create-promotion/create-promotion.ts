@@ -18,6 +18,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSelectModule } from '@angular/material/select';
 import { CustomerFormField } from '@src/app/shared/components/customer-form-field/customer-form-field';
 import { PromotionItem } from '@src/app/core/models/promotion-item';
+import { PromotionService } from '@src/app/core/services/promotion-service';
+import { withLoading } from '@src/app/shared/operators/with-loading';
 
 @Component({
   selector: 'app-create-promotion',
@@ -40,6 +42,7 @@ import { PromotionItem } from '@src/app/core/models/promotion-item';
   styleUrl: './create-promotion.scss'
 })
 export class CreatePromotionComponent implements OnInit {
+  private readonly promotionService = inject(PromotionService);
   private readonly loadingService = inject(LoadingService);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
@@ -105,7 +108,13 @@ export class CreatePromotionComponent implements OnInit {
       promotionItem.productId = promotionItem.product.id;
     });
 
-    console.log('Guardando promoción', promotion);
+    this.loadingService.show();
+    this.promotionService
+      .createFullPromotion(promotion)
+      .pipe(withLoading(this.loadingService))
+      .subscribe((response: any) => {
+        this.router.navigate(['/promotions/list']);
+      });
   }
 
   isSubmitDisabled() {

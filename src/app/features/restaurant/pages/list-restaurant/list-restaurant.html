@@ -25,53 +25,55 @@
 
 </form>
 
+<h4>Restaurantes</h4>
+
 <div class="table-container">
 
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 mat-table-responsive">
 
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef>Id</th>
-      <td mat-cell *matCellDef="let category">{{ category.id }}</td>
+      <td mat-cell *matCellDef="let restaurant">{{ restaurant.id }}</td>
     </ng-container>
 
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>Nombre</th>
-      <td mat-cell *matCellDef="let category">{{ category.name }}</td>
+      <td mat-cell *matCellDef="let restaurant">{{ restaurant.name }}</td>
     </ng-container>
 
     <ng-container matColumnDef="address">
       <th mat-header-cell *matHeaderCellDef>Dirección</th>
-      <td mat-cell *matCellDef="let category">{{ category.address }}</td>
+      <td mat-cell *matCellDef="let restaurant">{{ restaurant.address }}</td>
     </ng-container>
 
     <ng-container matColumnDef="createdAt">
       <th mat-header-cell *matHeaderCellDef>Creado</th>
-      <td mat-cell *matCellDef="let category">{{ category.createdAt ? (category.createdAt | date: 'short') : '-' }}</td>
+      <td mat-cell *matCellDef="let restaurant">{{ restaurant.createdAt ? (restaurant.createdAt | date: 'short') : '-' }}</td>
     </ng-container>
 
     <ng-container matColumnDef="updatedAt">
       <th mat-header-cell *matHeaderCellDef>Actualizado</th>
-      <td mat-cell *matCellDef="let category">{{ category.updatedAt ? (category.updatedAt | date: 'short') : '-' }}</td>
+      <td mat-cell *matCellDef="let restaurant">{{ restaurant.updatedAt ? (restaurant.updatedAt | date: 'short') : '-' }}</td>
     </ng-container>
 
     <ng-container matColumnDef="deletedAt">
       <th mat-header-cell *matHeaderCellDef>Eliminado</th>
-      <td mat-cell *matCellDef="let category">{{ category.deletedAt ? (category.deletedAt | date: 'short') : '-' }}</td>
+      <td mat-cell *matCellDef="let restaurant">{{ restaurant.deletedAt ? (restaurant.deletedAt | date: 'short') : '-' }}</td>
     </ng-container>
 
     <ng-container matColumnDef="status">
       <th mat-header-cell *matHeaderCellDef>Estado</th>
-      <td mat-cell *matCellDef="let category">
-        <mat-chip [disabled]="!category.status">{{ category.status ? 'Activo' :
+      <td mat-cell *matCellDef="let restaurant">
+        <mat-chip [disabled]="!restaurant.status">{{ restaurant.status ? 'Activo' :
           'Desactivado' }}</mat-chip>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Acciones</th>
-      <td mat-cell *matCellDef="let category">
-        <button mat-button color="primary" (click)="editRestaurant(category)">Editar</button>
-        <button mat-button color="warn" (click)="deleteRestaurant(category.id)">Eliminar</button>
+      <td mat-cell *matCellDef="let restaurant">
+        <button mat-button color="primary" (click)="editRestaurant(restaurant)">Editar</button>
+        <button mat-button color="warn" (click)="deleteRestaurant(restaurant.id)">Eliminar</button>
       </td>
     </ng-container>
 

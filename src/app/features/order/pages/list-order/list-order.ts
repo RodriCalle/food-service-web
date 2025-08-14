@@ -29,7 +29,6 @@ import { AuthService } from '@src/app/core/services/auth-service';
     MatButtonModule,
     MatSelectModule,
     OrderCardComponent,
-    CommonModule,
     CustomerFormField,
     RestaurantFormField,
   ],

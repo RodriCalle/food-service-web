@@ -1,0 +1,13 @@
+<mat-form-field appearance="outline">
+    <input matInput placeholder="Buscar promoción" [formControl]="control" [matAutocomplete]="autoPromotion"
+        [required]="isRequired" />
+    <mat-autocomplete #autoPromotion="matAutocomplete" autoActiveFirstOption
+        [displayWith]="displayPromotionName">
+        @for (promotion of filteredPromotions$ | async; track promotion) {
+            <mat-option [value]="promotion"
+                (onSelectionChange)="onPromotionSelected(promotion)">
+                {{ promotion.name }}
+            </mat-option>
+        }
+    </mat-autocomplete>
+</mat-form-field>
