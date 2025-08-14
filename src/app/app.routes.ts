@@ -124,6 +124,25 @@ export const routes: Routes = [
           },
         ],
       },
+      {
+        path: 'promotions',
+        children: [
+          {
+            path: 'list',
+            loadComponent: () =>
+              import('./features/promotion/pages/list-promotion/list-promotion').then(
+                (m) => m.ListPromotionComponent
+              ),
+          },
+          {
+            path: 'create',
+            loadComponent: () =>
+              import('./features/promotion/pages/create-promotion/create-promotion').then(
+                (m) => m.CreatePromotionComponent
+              ),
+          },
+        ],
+      },
     ],
   },
 

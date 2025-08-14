@@ -117,6 +117,22 @@ export class ListProductComponent implements AfterViewInit, OnInit {
     this.loadProducts();
   }
 
+  resetForm() {
+    if(this.authService.hasRole(['Admin'])){
+      this.form.patchValue({
+        restaurantId: null,
+      });
+    }
+    this.form.patchValue({
+      id: null,
+      name: '',
+      description: '',
+      stock: 0,
+      price: 0,
+      categoryId: null,
+    });
+  }
+
   saveProduct() {
     if (this.formMode === 'create') {
       this.createProduct();
@@ -155,7 +171,7 @@ export class ListProductComponent implements AfterViewInit, OnInit {
 
   cancelEditMode() {
     this.formMode = 'create';
-    this.form.reset();
+    this.resetForm();
   }
 
   createProduct() {
@@ -168,7 +184,7 @@ export class ListProductComponent implements AfterViewInit, OnInit {
       .create(product)
       .pipe(withLoading(this.loadingService))
       .subscribe((newProduct: any) => {
-        this.form.reset();
+        this.resetForm();
         this.loadProducts();
       });
   }
@@ -190,7 +206,7 @@ export class ListProductComponent implements AfterViewInit, OnInit {
       .pipe(withLoading(this.loadingService))
       .subscribe((updatedProduct: any) => {
         this.loadProducts();
-        this.form.reset();
+        this.resetForm();
         this.formMode = 'create';
       });
   }

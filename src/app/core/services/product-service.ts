@@ -1,6 +1,6 @@
 import { environment } from '@src/environments/environment';
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Product } from '@app/core/models/product';
 
@@ -12,10 +12,10 @@ export class ProductService {
   private readonly apiUrl = environment.apiUrl + '/api/products';
 
   getAll(restaurantId?: string, categoryId?: string): Observable<Product[]> {
-    const params: any = {};
+    let params: HttpParams = new HttpParams();
 
-    if (restaurantId) params.restaurantId = restaurantId;
-    if (categoryId) params.categoryId = categoryId;
+    if (restaurantId) params = params.set('restaurantId', restaurantId);
+    if (categoryId) params = params.set('categoryId', categoryId);
 
     return this.http.get<Product[]>(this.apiUrl, { params });
   }

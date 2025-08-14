@@ -1,6 +1,6 @@
 import { environment } from '@src/environments/environment';
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ApplicationUser } from '@app/core/models/application-user';
 
@@ -12,9 +12,9 @@ export class ApplicationUserService {
   private readonly apiUrl = environment.apiUrl + '/api/application-users';
 
   getAll(restaurantId?: string): Observable<ApplicationUser[]> {
-    const params: any = {};
+    let params: HttpParams = new HttpParams();
 
-    if (restaurantId) params.restaurantId = restaurantId;
+    if (restaurantId) params = params.set('restaurantId', restaurantId);
 
     return this.http.get<ApplicationUser[]>(this.apiUrl, { params });
   }

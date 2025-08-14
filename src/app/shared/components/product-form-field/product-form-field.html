@@ -1,0 +1,13 @@
+<mat-form-field appearance="outline">
+    <input matInput placeholder="Buscar producto" [formControl]="control" [matAutocomplete]="autoProduct"
+        [required]="isRequired" />
+    <mat-autocomplete #autoProduct="matAutocomplete" autoActiveFirstOption
+        [displayWith]="displayProductName">
+        @for (product of filteredProducts$ | async; track product) {
+            <mat-option [value]="product"
+                (onSelectionChange)="onProductSelected(product)">
+                {{ product.name }}
+            </mat-option>
+        }
+    </mat-autocomplete>
+</mat-form-field>

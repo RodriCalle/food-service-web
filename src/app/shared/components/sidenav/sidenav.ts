@@ -103,6 +103,22 @@ export class SidenavComponent {
         },
       ],
     },
+    {
+      label: 'Promociones',
+      icon: 'percent',
+      children: [
+        {
+          label: 'Listado',
+          path: '/promotions/list',
+          roles: ['admin', 'supervisor', 'waiter'],
+        },
+        {
+          label: 'Crear',
+          path: '/promotions/create',
+          roles: ['admin', 'supervisor'],
+        },
+      ],
+    },
   ];
   menuItemsForRole: MenuItem[] = [];
 

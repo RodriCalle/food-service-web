@@ -1,9 +1,11 @@
 import { CommonModule, CurrencyPipe } from '@angular/common';
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
+import { ApplicationUser } from '@src/app/core/models/application-user';
 import { Order } from '@src/app/core/models/order';
+import { AuthService } from '@src/app/core/services/auth-service';
 import { OrderService } from '@src/app/core/services/order-service';
 import { withLoading } from '@src/app/shared/operators/with-loading';
 import { LoadingService } from '@src/app/shared/services/loading-service';
@@ -14,11 +16,17 @@ import { LoadingService } from '@src/app/shared/services/loading-service';
   templateUrl: './order-card.html',
   styleUrl: './order-card.scss',
 })
-export class OrderCardComponent {
+export class OrderCardComponent implements OnInit {
   @Input({ required: true }) order!: Order;
   @Output() statusChanged = new EventEmitter<void>();
   private orderService = inject(OrderService);
   private loadingService = inject(LoadingService);
+  private authService = inject(AuthService);
+  userRole: string = '';
+
+  ngOnInit(): void {
+    this.userRole = this.authService.getUserInfo().role;
+  }
 
   getChipClass(status: number): string {
     switch (status) {

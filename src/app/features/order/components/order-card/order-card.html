@@ -25,12 +25,14 @@
   </mat-card-content>
 
   <mat-card-actions class="order-actions">
-    @if (order.status === 0) {
+    @if (order.status === 0 && (userRole === 'Admin' || userRole === 'Supervisor' || userRole === 'Cook')) {
       <button matButton="filled" (click)="changeStatusToInProgress()">En preparación</button>
     }
-    @if (order.status === 1) {
+    @if (order.status === 1 && (userRole === 'Admin' || userRole === 'Supervisor' || userRole === 'Waiter')) {
       <button matButton="filled" (click)="changeStatusToDelivered()">Entregado</button>
     }
-    <button matButton="outlined" (click)="cancelOrder()">Cancelar</button>
+    @if (userRole === 'Admin' || userRole === 'Supervisor' || userRole === 'Waiter') {
+      <button matButton="outlined" (click)="cancelOrder()">Cancelar</button>
+    }
   </mat-card-actions>
 </mat-card>

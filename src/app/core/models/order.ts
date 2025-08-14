@@ -10,4 +10,5 @@ export interface Order {
   customer?: any;
   customerId?: any;
   orderItems: any[];
+  orderPromotions: any[];
 }
